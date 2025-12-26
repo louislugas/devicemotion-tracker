@@ -23,6 +23,17 @@
 		console.log(payload, "message received")
 	}
 
+	const userStatus = {
+		user: user,
+		online_at: new Date().toISOString(),
+	}
+
+	myChannel.subscribe(async (status) => {
+		if (status !== 'SUBSCRIBED') { return }
+			const presenceTrackStatus = await myChannel.track(userStatus)
+			console.log(presenceTrackStatus)
+	})
+
 	myChannel
 		.on('presence', { event: 'sync' }, () => {
 			const newState = myChannel.presenceState()
@@ -38,12 +49,12 @@
 
 	// Subscribe to the Channel
 	myChannel
-	.on(
-		'broadcast',
-		{ event: 'shout' }, // Listen for "shout". Can be "*" to listen to all events
-		(payload) => messageReceived(payload)
-	)
-	.subscribe()
+		.on(
+			'broadcast',
+			{ event: 'shout' }, // Listen for "shout". Can be "*" to listen to all events
+			(payload) => messageReceived(payload)
+		)
+		.subscribe()
 
 	// Send a test message
 	myChannel
