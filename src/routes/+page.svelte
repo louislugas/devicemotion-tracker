@@ -10,13 +10,7 @@
 	let xPos
 	let yPos
 
-	const myChannel = supabase.channel('test-channel',{
-		config: {
-			broadcast: {
-				self: true // Receive your own broadcasts
-			}
-		}
-	});
+	const myChannel = supabase.channel('test-channel');
 
 	// Simple function to log any messages we receive
 	function messageReceived(payload) {
@@ -28,11 +22,12 @@
 		online_at: new Date().toISOString(),
 	}
 
-	myChannel.subscribe(async (status) => {
-		if (status !== 'SUBSCRIBED') { return }
-			const presenceTrackStatus = await myChannel.track(userStatus)
-			console.log(presenceTrackStatus)
-	})
+	myChannel
+		.subscribe(async (status) => {
+			if (status !== 'SUBSCRIBED') { return }
+				const presenceTrackStatus = await myChannel.track(userStatus)
+				console.log(presenceTrackStatus)
+		})
 
 	myChannel
 		.on('presence', { event: 'sync' }, () => {
