@@ -48,22 +48,22 @@
 		.subscribe()
 
 	// Subscribe to the Channel
-	myChannel
-		.on(
-			'broadcast',
-			{ event: 'shout' }, // Listen for "shout". Can be "*" to listen to all events
-			(payload) => messageReceived(payload)
-		)
-		.subscribe()
+	// myChannel
+	// 	.on(
+	// 		'broadcast',
+	// 		{ event: 'shout' }, // Listen for "shout". Can be "*" to listen to all events
+	// 		(payload) => messageReceived(payload)
+	// 	)
+	// 	.subscribe()
 
 	// Send a test message
-	myChannel
-		.send({
-			type: 'broadcast',
-			event: 'shout',
-			payload: { message: 'Hi' , userId: user},
-		})
-		.then((resp) => console.log(resp))
+	// myChannel
+	// 	.send({
+	// 		type: 'broadcast',
+	// 		event: 'shout',
+	// 		payload: { message: 'Hi' , userId: user},
+	// 	})
+	// 	.then((resp) => console.log(resp))
 
 	function mousemove(e) {
 		// if (progress <= path.getTotalLength()) {
