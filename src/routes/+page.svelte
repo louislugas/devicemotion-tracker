@@ -13,9 +13,9 @@
 	const myChannel = supabase.channel('test-channel');
 
 	// Simple function to log any messages we receive
-	function messageReceived(payload) {
-		console.log(payload, "message received")
-	}
+	// function messageReceived(payload) {
+	// 	console.log(payload, "message received")
+	// }
 
 	const userStatus = {
 		user: user,
@@ -73,6 +73,8 @@
 </script>
 
 <svelte:body on:mousemove={mousemove}></svelte:body>
+
+<h1>USER: {user}</h1>
 
 <style>
 	:global(body) {
