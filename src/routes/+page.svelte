@@ -25,7 +25,7 @@
 
 	myChannel
 		.on('presence', { event: 'sync' }, () => {
-			const newState = roomOne.presenceState()
+			const newState = myChannel.presenceState()
 			console.log('sync', newState)
 		})
 		.on('presence', { event: 'join' }, ({ key, newPresences }) => {
