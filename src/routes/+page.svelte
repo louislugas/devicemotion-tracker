@@ -64,21 +64,36 @@
 	// 	})
 	// 	.then((resp) => console.log(resp))
 
+	let lastSent = 0
+
 	function mousemove(e) {
 		// if (progress <= path.getTotalLength()) {
 			mY = e.movementY
 			progress += Math.abs(mY)/100
-			// console.log(parseInt(progress))
-			// xPos = path.getPointAtLength(progress).x
-			// yPos = path.getPointAtLength(progress).y
+			
+			const now = Date.now()
+			if (now - lastSent < 16) return // ~60fps
+			lastSent = now
+
+			channel.send({
+				type: 'broadcast',
+				event: 'progress',
+				payload: { progress: progress, user: user },
+			})
 		// }
 	}
+
+	channel.on('broadcast', { event: 'progress' }, ({ payload }) => {
+		console.log(payload)
+	// update UI cursor for that user
+	})
 
 </script>
 
 <svelte:body on:mousemove={mousemove}></svelte:body>
 
 <h1>USER: {user}</h1>
+<h2>Progress: {progress}</h2>
 
 <style>
 	:global(body) {
