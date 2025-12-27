@@ -23,8 +23,9 @@
 		.on('presence', { event: 'sync' }, () => {
 			const newState = myChannel.presenceState()
 			console.log('sync', newState)
-			users = Object.values(newState)
+			users = Object.values(newState).filter(d => d.user.length <= 4)
 			console.log(users)
+			console.log(users[0].user)
 		})
 		.on('presence', { event: 'join' }, ({ key, newPresences }) => {
 			console.log('join', key, newPresences)
@@ -88,11 +89,14 @@
 
 <h1>your ID: {user}</h1>
 <br>
-{#each users as user}
-	<h1>USER: {user.user}</h1>
-	<!-- <h2>Progress: {data.user == user.user ? data.progress : 0}</h2> -->
-{/each}
-
+{#if users.length == 0}
+	<h2>No other users connected</h2>
+{:else if users.length > 0}
+	{#each users as u}
+		<h1>USER: {u.user}</h1>
+		<!-- <h2>Progress: {data.user == user.user ? data.progress : 0}</h2> -->
+	{/each}
+{/if}
 <style>
 	:global(body) {
 		margin: 0;
