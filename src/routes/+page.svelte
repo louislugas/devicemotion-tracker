@@ -11,6 +11,7 @@
 	}
 
 	import {supabase} from '$lib/supabase';
+    import { dev } from '$app/environment';
 
 	let mY = 0
 	let progress = 0
@@ -24,7 +25,6 @@
 		config: {
 			presence: {
 				key: user.toString(),
-				device: device == "desktop" ? "desktop" : "mobile",
 			},
 		},
 	});
@@ -48,6 +48,7 @@
 				await myChannel.track({
 					user: user.toString(),
 					color: '#ff0000', // assign random color
+					device: device == "desktop" ? "desktop" : "mobile",
 				})
 			}
 		})
