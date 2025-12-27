@@ -87,7 +87,7 @@
 
 {#each users as user}
 	<h1>USER: {user.user}</h1>
-	<h2>Progress: {data.user == user.user ? data.progress : 0}</h2>
+	<!-- <h2>Progress: {data.user == user.user ? data.progress : 0}</h2> -->
 {/each}
 
 <style>
