@@ -96,9 +96,7 @@
 	let z
 
 	function deviceMotion(e) {
-		x = event.acceleration.x
-		y = event.acceleration.y
-		z = event.acceleration.z
+		y = Math.floor(event.acceleration.y)
 
 		progress += Math.abs(y)/100
 		
