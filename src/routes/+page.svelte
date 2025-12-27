@@ -23,7 +23,7 @@
 		.on('presence', { event: 'sync' }, () => {
 			const newState = myChannel.presenceState()
 			console.log('sync', newState)
-			users = Object.values(newState)
+			users = Object.values(newState).filter(d => d[0].user.length <= 4)
 			console.log(users)
 		})
 		.on('presence', { event: 'join' }, ({ key, newPresences }) => {
