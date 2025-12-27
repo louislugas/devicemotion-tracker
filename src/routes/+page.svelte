@@ -23,7 +23,7 @@
 		.on('presence', { event: 'sync' }, () => {
 			const newState = myChannel.presenceState()
 			console.log('sync', newState)
-			users = Object.values(newState).filter(d => d.user.length <= 4)
+			users = Object.values(newState)
 			console.log(users)
 			console.log(users[0].user)
 		})
