@@ -26,9 +26,10 @@
 		.subscribe(async (status) => {
 			if (status !== 'SUBSCRIBED') { return }
 			if (status === 'SUBSCRIBED') {
-				console.log('Successfully subscribed to channel')
-				const presenceTrackStatus = await myChannel.track(userStatus)
-				console.log(presenceTrackStatus)
+				await myChannel.track({
+					user: crypto.randomUUID(),
+					color: '#ff0000', // assign random color
+				})
 			}
 		})
 
