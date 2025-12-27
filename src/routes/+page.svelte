@@ -24,6 +24,7 @@
 			const newState = myChannel.presenceState()
 			console.log('sync', newState)
 			users = Object.values(newState)
+			console.log(users)
 		})
 		.on('presence', { event: 'join' }, ({ key, newPresences }) => {
 			console.log('join', key, newPresences)
@@ -85,6 +86,8 @@
 
 <svelte:window on:devicemotion={deviceMotion}></svelte:window>
 
+<h1>your ID: {user}</h1>
+<br>
 {#each users as user}
 	<h1>USER: {user.user}</h1>
 	<!-- <h2>Progress: {data.user == user.user ? data.progress : 0}</h2> -->
