@@ -1,7 +1,6 @@
 <script>
 	let user = Math.floor(Math.random()*9999)
 
-
 	import {supabase} from '$lib/supabase';
 
 	let mY = 0
@@ -10,17 +9,20 @@
 	let xPos
 	let yPos
 
-	const myChannel = supabase.channel('test-channel');
+	let users = []
+
+	const myChannel = supabase.channel('test-channel', {
+		config: {
+			presence: {
+				key: user.toString(),
+			},
+		},
+	});
 
 	// Simple function to log any messages we receive
 	// function messageReceived(payload) {
 	// 	console.log(payload, "message received")
 	// }
-
-	const userStatus = {
-		user: user,
-		online_at: new Date().toISOString(),
-	}
 
 	myChannel
 		.subscribe(async (status) => {
@@ -91,9 +93,7 @@
 		})
 	}
 
-	let x
 	let y
-	let z
 
 	function deviceMotion(e) {
 		y = Math.floor(event.acceleration.y)
@@ -108,7 +108,7 @@
 	}
 
 	myChannel.on('broadcast', { event: 'progress' }, ({ payload }) => {
-		console.log(payload)
+		// console.log(payload)
 	// update UI cursor for that user
 	})
 
@@ -124,12 +124,10 @@
 
 <svelte:window on:devicemotion={deviceMotion}></svelte:window>
 
-<h1>USER: {user}</h1>
-<h2>Progress: {progress}</h2>
-<h3>x: {x}</h3>
-<h3>y: {y}</h3>
-<h3>z: {z}</h3>
-<button on:click={click}>click</button>
+{#each users as user}
+	<h1>USER: {user}</h1>
+	<h2>Progress: {progress}</h2>
+{/each}
 
 <style>
 	:global(body) {
