@@ -66,28 +66,40 @@
 
 	let lastSent = 0
 
-	function mousemove(e) {
-		// if (progress <= path.getTotalLength()) {
-			mY = e.movementY
-			progress += Math.abs(mY)/100
+	// function mousemove(e) {
+	// 	// if (progress <= path.getTotalLength()) {
+	// 		mY = e.movementY
+	// 		progress += Math.abs(mY)/100
 			
-			const now = Date.now()
-			if (now - lastSent < 16) return // ~60fps
-			lastSent = now
+	// 		const now = Date.now()
+	// 		if (now - lastSent < 16) return // ~60fps
+	// 		lastSent = now
 
-			myChannel.send({
-				type: 'broadcast',
-				event: 'progress',
-				payload: { progress: progress, user: user },
-			})
-		// }
-	}
+	// 		myChannel.send({
+	// 			type: 'broadcast',
+	// 			event: 'progress',
+	// 			payload: { progress: progress, user: user },
+	// 		})
+	// 	// }
+	// }
 
 	function click() {
 		myChannel.send({
 			type: 'broadcast',
 			event: 'progress',
 			payload: { user: user },
+		})
+	}
+
+	function deviceMotion(e) {
+		const y = event.accelerationIncludingGravity.y
+
+		progress += Math.abs(y)/100
+		
+		myChannel.send({
+			type: 'broadcast',
+			event: 'progress',
+			payload: { progress: progress, user: user },
 		})
 	}
 
@@ -104,7 +116,9 @@
 
 </script>
 
-<svelte:body on:mousemove={mousemove}></svelte:body>
+<!-- <svelte:body on:mousemove={mousemove}></svelte:body> -->
+
+<svelte:window on:devicemotion={deviceMotion}></svelte:window>
 
 <h1>USER: {user}</h1>
 <h2>Progress: {progress}</h2>
