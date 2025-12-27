@@ -1,5 +1,14 @@
+<script context="module">
+  import Device from 'svelte-device-info';
+</script>
+
 <script>
 	let user = Math.floor(Math.random()*9999)
+	let device = null
+
+	if (!Device.isMobile && !Device.isPhone && !Device.isTablet) {
+		device = 'desktop'
+	}
 
 	import {supabase} from '$lib/supabase';
 
@@ -15,6 +24,7 @@
 		config: {
 			presence: {
 				key: user.toString(),
+				device: device == "desktop" ? "desktop" : "mobile",
 			},
 		},
 	});
@@ -94,13 +104,16 @@
 <svelte:window on:devicemotion={deviceMotion}></svelte:window>
 
 <h1>your ID: {user}</h1>
+<h2>Device: {device}</h2>
 <br>
 {#if users.length == 0}
 	<h2>No other users connected</h2>
 {:else if users.length > 0}
 	{#each users as u}
-		<h1>USER: {u[0].user}</h1>
-		<h2>Progress: {u[0].progress ? u[0].progress : 0}</h2>
+		{#if u[0].device == 'mobile'}
+			<h1>USER: {u[0].user}</h1>
+			<h2>Progress: {u[0].progress ? u[0].progress : 0}</h2>
+		{/if}
 	{/each}
 {/if}
 <style>
