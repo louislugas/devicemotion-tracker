@@ -110,7 +110,7 @@
 	}
 
 	myChannel.on('broadcast', { event: 'progress' }, ({ payload }) => {
-		// console.log(payload)
+		console.log(payload)
 	// update UI cursor for that user
 	})
 
