@@ -19,22 +19,6 @@
 		},
 	});
 
-	// Simple function to log any messages we receive
-	// function messageReceived(payload) {
-	// 	console.log(payload, "message received")
-	// }
-
-	myChannel
-		.subscribe(async (status) => {
-			if (status !== 'SUBSCRIBED') { return }
-			if (status === 'SUBSCRIBED') {
-				await myChannel.track({
-					user: crypto.randomUUID(),
-					color: '#ff0000', // assign random color
-				})
-			}
-		})
-
 	myChannel
 		.on('presence', { event: 'sync' }, () => {
 			const newState = myChannel.presenceState()
@@ -46,44 +30,17 @@
 		.on('presence', { event: 'leave' }, ({ key, leftPresences }) => {
 			console.log('leave', key, leftPresences)
 		})
-		.subscribe()
-
-	// Subscribe to the Channel
-	// myChannel
-	// 	.on(
-	// 		'broadcast',
-	// 		{ event: 'shout' }, // Listen for "shout". Can be "*" to listen to all events
-	// 		(payload) => messageReceived(payload)
-	// 	)
-	// 	.subscribe()
-
-	// Send a test message
-	// myChannel
-	// 	.send({
-	// 		type: 'broadcast',
-	// 		event: 'shout',
-	// 		payload: { message: 'Hi' , userId: user},
-	// 	})
-	// 	.then((resp) => console.log(resp))
+		.subscribe(async (status) => {
+			if (status !== 'SUBSCRIBED') { return }
+			if (status === 'SUBSCRIBED') {
+				await myChannel.track({
+					user: crypto.randomUUID(),
+					color: '#ff0000', // assign random color
+				})
+			}
+		})
 
 	let lastSent = 0
-
-	// function mousemove(e) {
-	// 	// if (progress <= path.getTotalLength()) {
-	// 		mY = e.movementY
-	// 		progress += Math.abs(mY)/100
-			
-	// 		const now = Date.now()
-	// 		if (now - lastSent < 16) return // ~60fps
-	// 		lastSent = now
-
-	// 		myChannel.send({
-	// 			type: 'broadcast',
-	// 			event: 'progress',
-	// 			payload: { progress: progress, user: user },
-	// 		})
-	// 	// }
-	// }
 
 	function click() {
 		myChannel.send({
