@@ -25,7 +25,6 @@
 			console.log('sync', newState)
 			users = Object.values(newState)
 			console.log(users)
-			console.log(users[0].user)
 		})
 		.on('presence', { event: 'join' }, ({ key, newPresences }) => {
 			console.log('join', key, newPresences)
@@ -71,7 +70,14 @@
 
 	myChannel.on('broadcast', { event: 'progress' }, ({ payload }) => {
 		// console.log(payload)
-		data = payload
+		let p = payload.progress
+		let u = payload.user
+
+		let id = users.findIndex((item) => item[0].user == u)
+		if (id != -1) {
+			users[id][0].progress = p
+		}
+
 	// update UI cursor for that user
 	})
 
@@ -93,8 +99,8 @@
 	<h2>No other users connected</h2>
 {:else if users.length > 0}
 	{#each users as u}
-		<h1>USER: {u.user}</h1>
-		<!-- <h2>Progress: {data.user == user.user ? data.progress : 0}</h2> -->
+		<h1>USER: {u[0].user}</h1>
+		<h2>Progress: {u[0].progress ? u[0].progress : 0}</h2>
 	{/each}
 {/if}
 <style>
