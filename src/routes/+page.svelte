@@ -27,9 +27,9 @@
 			if (status !== 'SUBSCRIBED') { return }
 			if (status === 'SUBSCRIBED') {
 				console.log('Successfully subscribed to channel')
+				const presenceTrackStatus = await myChannel.track(userStatus)
+				console.log(presenceTrackStatus)
 			}
-			const presenceTrackStatus = await myChannel.track(userStatus)
-			console.log(presenceTrackStatus)
 		})
 
 	myChannel
