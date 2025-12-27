@@ -91,8 +91,14 @@
 		})
 	}
 
+	let x
+	let y
+	let z
+
 	function deviceMotion(e) {
-		const y = event.accelerationIncludingGravity.y
+		x = event.acceleration.x
+		y = event.acceleration.y
+		z = event.acceleration.z
 
 		progress += Math.abs(y)/100
 		
@@ -104,7 +110,7 @@
 	}
 
 	myChannel.on('broadcast', { event: 'progress' }, ({ payload }) => {
-		console.log(payload)
+		// console.log(payload)
 	// update UI cursor for that user
 	})
 
@@ -122,6 +128,9 @@
 
 <h1>USER: {user}</h1>
 <h2>Progress: {progress}</h2>
+<h3>x: {x}</h3>
+<h3>y: {y}</h3>
+<h3>z: {z}</h3>
 <button on:click={click}>click</button>
 
 <style>
