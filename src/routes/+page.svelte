@@ -75,7 +75,7 @@
 			if (now - lastSent < 16) return // ~60fps
 			lastSent = now
 
-			channel.send({
+			myChannel.send({
 				type: 'broadcast',
 				event: 'progress',
 				payload: { progress: progress, user: user },
@@ -83,7 +83,7 @@
 		// }
 	}
 
-	channel.on('broadcast', { event: 'progress' }, ({ payload }) => {
+	myChannel.on('broadcast', { event: 'progress' }, ({ payload }) => {
 		console.log(payload)
 	// update UI cursor for that user
 	})
