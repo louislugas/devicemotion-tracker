@@ -23,6 +23,7 @@
 		.on('presence', { event: 'sync' }, () => {
 			const newState = myChannel.presenceState()
 			console.log('sync', newState)
+			users = Object.values(newState)
 		})
 		.on('presence', { event: 'join' }, ({ key, newPresences }) => {
 			console.log('join', key, newPresences)
@@ -34,7 +35,7 @@
 			if (status !== 'SUBSCRIBED') { return }
 			if (status === 'SUBSCRIBED') {
 				await myChannel.track({
-					user: crypto.randomUUID(),
+					user: user.toString(),
 					color: '#ff0000', // assign random color
 				})
 			}
@@ -64,8 +65,11 @@
 		})
 	}
 
+	let data
+
 	myChannel.on('broadcast', { event: 'progress' }, ({ payload }) => {
 		// console.log(payload)
+		data = payload
 	// update UI cursor for that user
 	})
 
@@ -82,8 +86,8 @@
 <svelte:window on:devicemotion={deviceMotion}></svelte:window>
 
 {#each users as user}
-	<h1>USER: {user}</h1>
-	<h2>Progress: {progress}</h2>
+	<h1>USER: {user.user}</h1>
+	<h2>Progress: {data.user == user.user ? data.progress : 0}</h2>
 {/each}
 
 <style>
