@@ -83,10 +83,24 @@
 		// }
 	}
 
+	function click() {
+		myChannel.send({
+			type: 'broadcast',
+			event: 'progress',
+			payload: { user: user },
+		})
+	}
+
 	myChannel.on('broadcast', { event: 'progress' }, ({ payload }) => {
 		console.log(payload)
 	// update UI cursor for that user
 	})
+
+	// const cursors = new Map()
+
+	// myChannel.on('broadcast', { event: 'progress' }, ({ payload, sender }) => {
+	// 	cursors.set(sender, payload)
+	// })
 
 </script>
 
@@ -94,6 +108,7 @@
 
 <h1>USER: {user}</h1>
 <h2>Progress: {progress}</h2>
+<button on:click={click}>click</button>
 
 <style>
 	:global(body) {
