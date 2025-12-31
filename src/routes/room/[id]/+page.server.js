@@ -6,8 +6,6 @@ import { error } from '@sveltejs/kit';
 
 export const load = async ({ params, cookies }) => {
 
-    
-
     let player = ""
 
     console.log(params.id)
@@ -22,7 +20,7 @@ export const load = async ({ params, cookies }) => {
     if (data.length > 0) {
         console.log(data)
         if (!cookies.get('race-name')) {
-            redirect(303, '/join'); 
+            error(400, "Player's Session Over");
         } else {
             player = cookies.get('race-name')
             console.log("player name from cookies is: ", player)

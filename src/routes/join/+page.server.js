@@ -3,6 +3,7 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { supabase } from '$lib/supabase';
 import { goto } from '$app/navigation';
+import { error } from '@sveltejs/kit';
 
 /** @satisfies {import('./$types').Actions} */
 export const actions = {
@@ -35,7 +36,7 @@ export const actions = {
             }
         } else {
             console.log("Room does not exist")
-            return fail(400, { room, noRoom: true });
+            error(404, 'Room Not Found');
         }
     }
 }
