@@ -67,6 +67,7 @@
                     user: data.player,
                     color: '#ff0000', // assign random color
                     device: device == "desktop" ? "desktop" : "mobile",
+                    progress: 0
                 })
             }
         })
@@ -104,7 +105,7 @@
         // console.log(newState[u], "USER ID")
         // console.log(newState[u][0].user, "NAME")
 
-        // console.log(newState[u][0].progress = p)
+        newState[u][0].progress = p
 
 		// let id = users.findIndex((item) => item[0].user == u)
 		// if (id != -1) {
