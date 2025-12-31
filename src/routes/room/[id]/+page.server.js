@@ -1,9 +1,12 @@
 /** @type {import('./$types').PageServerLoad} */
 
 import { supabase } from '$lib/supabase';
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
 
 export const load = async ({ params, cookies }) => {
+
+    
 
     let player = ""
 
@@ -18,19 +21,19 @@ export const load = async ({ params, cookies }) => {
     
     if (data.length > 0) {
         console.log(data)
-        player = cookies.get('race-name')
-        console.log("player name from cookies is: ", player)
-        if (player) {
+        if (!cookies.get('race-name')) {
+            redirect(303, '/join'); 
+        } else {
+            player = cookies.get('race-name')
+            console.log("player name from cookies is: ", player)
             return {
                 name: data[0].name,
                 id: data[0].id,
                 player: player
             }
-        } else {
-            return fail(404, { noPlayer: true });
         }
     } else {
-        return fail(404, { noRoom: true });
+        error(404, 'Room Not Found');
     }
 
 }
