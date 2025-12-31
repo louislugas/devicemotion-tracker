@@ -104,8 +104,9 @@
         // console.log(newState, "NEWSTATE")
         // console.log(newState[u], "USER ID")
         // console.log(newState[u][0].user, "NAME")
-
-        newState[u][0].progress = p
+        if(newState[u]) {
+            newState[u][0].progress = p
+        }
 
 		// let id = users.findIndex((item) => item[0].user == u)
 		// if (id != -1) {
