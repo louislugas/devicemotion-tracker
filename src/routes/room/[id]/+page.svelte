@@ -38,8 +38,10 @@
             // LISTEN TO SYNC
             const newState = raceChannel.presenceState()
             console.log('sync', newState)
-            users = Object.values(newState).filter(d => d[0].user.device == 'mobile')
+            users = Object.values(newState)
+            let filtered = users.filter(d => d[0].user.device == 'mobile')
             console.log(users)
+            console.log(filtered)
         })
         .on('presence', { event: 'join' }, ({ key, newPresences }) => {
             // LISTEN TO JOINED PLAYER
