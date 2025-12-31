@@ -16,6 +16,7 @@
 	let progress = 0
 
 	let users = $state([])
+    let newState = $state({})
 
 	if (!Device.isMobile && !Device.isPhone && !Device.isTablet) {
 		device = 'desktop'
@@ -36,19 +37,20 @@
     raceChannel
         .on('presence', { event: 'sync' }, () => {
             // LISTEN TO SYNC
-            const newState = raceChannel.presenceState()
+            newState = raceChannel.presenceState()
             console.log('sync', newState)
-            let array = Object.values(newState)
-            users = []
-            array.forEach(d => {
-                if (d[0].device == 'mobile') {
-                    users.push({
-                        color : d[0].color,
-                        name: d[0].user
-                    })
-                }
-            })
-            console.log(users, "USERS")
+            console.log(Object.entries(newState))
+            console.log(Object.entries(newState).length)
+            // users = []
+            // for (const [key, value] of Object.entries(newState)) {
+            //     if (value[0].device === 'mobile') {
+            //         users.push({
+            //             color : value[0].color,
+            //             name: value[0].user
+            //         })
+            //     }
+            // }
+            // console.log(users, "USERS")
         })
         .on('presence', { event: 'join' }, ({ key, newPresences }) => {
             // LISTEN TO JOINED PLAYER
@@ -102,11 +104,13 @@
     <h1>{data.name} - {data.id}</h1>
 </nav>
 
-{#if users.length == 0}
+{#if Object.entries(newState).length == 0}
 	<h2>No other users connected</h2>
-{:else if users.length > 0}
-    {#each users as user}
-        <h2>{user.name}</h2>
+{:else if Object.entries(newState).length > 0}
+    {#each Object.entries(newState) as [key, value]}
+        {#if value[0].device == 'mobile'}
+            <h2>{value[0].user}</h2>
+        {/if}
     {/each}
 {/if}
 
