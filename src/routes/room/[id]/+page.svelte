@@ -38,10 +38,16 @@
             // LISTEN TO SYNC
             const newState = raceChannel.presenceState()
             console.log('sync', newState)
-            users = Object.values(newState)
-            let filtered = users.filter(d => d[0].user.device == 'mobile')
-            console.log(users)
-            console.log(filtered)
+            let array = Object.values(newState)
+            users = []
+            array.forEach(d => {
+                users.push({
+                    color : d[0].color,
+                    device : d[0].device,
+                    user: d[0].user
+                })
+            })
+            console.log(users, "USERS")
         })
         .on('presence', { event: 'join' }, ({ key, newPresences }) => {
             // LISTEN TO JOINED PLAYER
@@ -100,7 +106,7 @@
 {:else if users.length > 0}
     {#each users as user}
         {#if user.device != "desktop"}
-            <h2>{data.player}</h2>
+            <h2>{user.user}</h2>
         {/if}
     {/each}
 {/if}
