@@ -26,7 +26,7 @@
         
     }
 
-    const raceChannel = supabase.channel('race-channel', {
+    const raceChannel = supabase.channel(`race-channel:${data.id}`, {
         config: {
             presence: {
                 key: user.toString(),
@@ -72,29 +72,45 @@
         })
 
     let lastSent = 0
+    let throttle_ms = 50
     let y
 
     function deviceMotion(e) {
-		y = Math.floor(event.acceleration.y)
-
-		progress += Math.abs(y)/100
-		
-		raceChannel.send({
-			type: 'broadcast',
-			event: 'progress',
-			payload: { progress: progress, user: user },
-		})
+        const now = Date.now()
+        if (now - lastSent > throttle_ms) {
+            y = Math.floor(event.acceleration.y)
+    
+            progress += Math.abs(y)/100
+            
+            raceChannel.send({
+                type: 'broadcast',
+                event: 'progress',
+                payload: { 
+                    progress: progress, 
+                    user: user.toString(),
+                    name: data.player
+                 },
+            })
+            lastSent = now
+        }
 	}
 
 	raceChannel.on('broadcast', { event: 'progress' }, ({ payload }) => {
 		let p = payload.progress
 		let u = payload.user
+        let n = payload.name
 
-		let id = users.findIndex((item) => item[0].user == u)
-		if (id != -1) {
-			users[id][0].progress = p
-		}
-        console.log(payload)
+        console.log(newState, "NEWSTATE")
+        console.log(newState[u], "USER ID")
+        console.log(newState[u][0].user, "NAME")
+
+        console.log(newState[u][0].progress = p)
+
+		// let id = users.findIndex((item) => item[0].user == u)
+		// if (id != -1) {
+		// 	users[id][0].progress = p
+		// }
+        // console.log(payload)
 	})
 </script>
 
@@ -111,6 +127,7 @@
     {#each Object.entries(newState) as [key, value]}
         {#if value[0].device == 'mobile'}
             <h2>{value[0].user}</h2>
+            <p>{Math.floor(value[0].progress)}</p>
         {/if}
     {/each}
 {/if}
