@@ -94,6 +94,7 @@
 		if (id != -1) {
 			users[id][0].progress = p
 		}
+        console.log(payload)
 	})
 </script>
 
