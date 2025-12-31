@@ -41,11 +41,12 @@
             let array = Object.values(newState)
             users = []
             array.forEach(d => {
-                users.push({
-                    color : d[0].color,
-                    device : d[0].device,
-                    user: d[0].user
-                })
+                if (d[0].device == 'mobile') {
+                    users.push({
+                        color : d[0].color,
+                        name: d[0].user
+                    })
+                }
             })
             console.log(users, "USERS")
         })
@@ -105,9 +106,7 @@
 	<h2>No other users connected</h2>
 {:else if users.length > 0}
     {#each users as user}
-        {#if user.device != "desktop"}
-            <h2>{user.user}</h2>
-        {/if}
+        <h2>{user.name}</h2>
     {/each}
 {/if}
 
