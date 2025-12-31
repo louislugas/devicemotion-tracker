@@ -100,11 +100,11 @@
 		let u = payload.user
         let n = payload.name
 
-        console.log(newState, "NEWSTATE")
-        console.log(newState[u], "USER ID")
-        console.log(newState[u][0].user, "NAME")
+        // console.log(newState, "NEWSTATE")
+        // console.log(newState[u], "USER ID")
+        // console.log(newState[u][0].user, "NAME")
 
-        console.log(newState[u][0].progress = p)
+        // console.log(newState[u][0].progress = p)
 
 		// let id = users.findIndex((item) => item[0].user == u)
 		// if (id != -1) {
@@ -127,7 +127,7 @@
     {#each Object.entries(newState) as [key, value]}
         {#if value[0].device == 'mobile'}
             <h2>{value[0].user}</h2>
-            <p>{Math.floor(value[0].progress)}</p>
+            <h2>Progress: {Math.floor(value[0].progress)}</h2>
         {/if}
     {/each}
 {/if}
