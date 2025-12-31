@@ -18,6 +18,7 @@
 	},
 	"dependencies": {
 		"@supabase/supabase-js": "^2.89.0",
-		"svelte-device-info": "^1.0.6"
+		"svelte-device-info": "^1.0.6",
+		"zod": "^4.2.1"
 	}
 }
