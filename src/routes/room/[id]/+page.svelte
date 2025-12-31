@@ -15,7 +15,7 @@
     let mY = 0
 	let progress = 0
 
-	let users = []
+	let users = $state([])
 
 	if (!Device.isMobile && !Device.isPhone && !Device.isTablet) {
 		device = 'desktop'
