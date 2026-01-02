@@ -10,7 +10,31 @@
 
     let user = Math.floor(Math.random()*9999)
 
-    let device = null
+    let device = $state(null)
+
+    let color = [
+        {
+            // blue
+            c:"#00BBE4",
+            a:false,
+        },
+        {
+            // red
+            c:"#FD4231",
+            a:false,
+        },
+        {
+            // green
+            c:"#00DB51",
+            a:false,
+        },
+        {
+            // purple
+            c:"#C239C9",
+            a:false,
+        }
+        
+    ]
 
     let mY = 0
 	let progress = 0
@@ -21,10 +45,6 @@
 	if (!Device.isMobile && !Device.isPhone && !Device.isTablet) {
 		device = 'desktop'
 	}
-
-    if (device != 'desktop') {
-        
-    }
 
     const raceChannel = supabase.channel(`race-channel:${data.id}`, {
         config: {
@@ -126,12 +146,23 @@
 {#if Object.entries(newState).length == 0}
 	<h2>No other users connected</h2>
 {:else if Object.entries(newState).length > 0}
-    {#each Object.entries(newState) as [key, value]}
+    {#each Object.entries(newState).slice(0,2) as [key, value]}
         {#if value[0].device == 'mobile'}
             <h2>{value[0].user}</h2>
             <h2>Progress: {Math.floor(value[0].progress)}</h2>
         {/if}
     {/each}
+{/if}
+
+{#if device == 'mobile'}
+    <p>pick color</p>
+    {#each color as c}
+        <div class="square" 
+            style:background-color={c.c}
+        ></div>
+    {/each}
+{:else if device == 'desktop'}
+    <p>desktop</p>
 {/if}
 
 
@@ -154,5 +185,9 @@
     h2 {
         font-family: 'Geo', sans-serif;
         color:black;
+    }
+    .square {
+        width:60px;
+        height:60px;
     }
 </style>
