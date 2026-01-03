@@ -36,6 +36,8 @@
         
     ])
 
+    let gameStart = $state(false)
+
     let mY = 0
 	let progress = 0
 
@@ -157,6 +159,10 @@
                 },
         })
     }
+
+    function startGame() {
+        gameStart = true
+    }
 </script>
 
 <svelte:window on:devicemotion={deviceMotion}></svelte:window>
@@ -192,9 +198,15 @@
             ></div>
         {/each}
     </div>
-    <button>START</button>
+    <button onclick={startGame}>START</button>
 {:else if device == 'desktop'}
     <p>DESKTOP</p>
+{/if}
+
+{#if gameStart}
+<h1>GAME STARTED</h1>
+{:else if !gameStart}
+<h1>GAME NOT STARTED</h1>
 {/if}
 
 
