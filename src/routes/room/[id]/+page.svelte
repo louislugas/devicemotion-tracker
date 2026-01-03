@@ -103,14 +103,16 @@
         .subscribe(async (status) => {
             if (status !== 'SUBSCRIBED') { return }
             if (status === 'SUBSCRIBED') {
-                await raceChannel.track({
-                    user: data.player,
-                    color: color[Math.floor(Math.random()*4)],
-                    device: device == "desktop" ? "desktop" : "mobile",
-                    progress: 0,
-                    x: path.getPointAtLength(0).x,
-                    y: path.getPointAtLength(0).y
-                })
+                if (path) {
+                    await raceChannel.track({
+                        user: data.player,
+                        color: color[Math.floor(Math.random()*4)],
+                        device: device == "desktop" ? "desktop" : "mobile",
+                        progress: 0,
+                        x: path.getPointAtLength(0).x,
+                        y: path.getPointAtLength(0).y
+                    })
+                }
             }
         })
 
