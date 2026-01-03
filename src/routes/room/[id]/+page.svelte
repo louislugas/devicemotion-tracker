@@ -85,7 +85,7 @@
                 console.log('Change received!', payload);
                 gameStart = payload.new.start
                 let countInterval = setInterval(() => {
-                    if (countDown >= 1) {
+                    if (countDown > 1) {
                         countDown--
                     } else {
                         clearInterval(countInterval)
