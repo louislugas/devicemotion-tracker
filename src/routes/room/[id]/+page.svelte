@@ -171,7 +171,7 @@
 {:else if Object.entries(newState).length > 0}
     {#each Object.entries(newState).slice(0,2) as [key, value]}
         {#if value[0].device == 'mobile'}
-            <div class="square-player" style:background-color={value[0].user}></div>
+            <div class="square-player" style:background-color={value[0].color}></div>
             <h2>{value[0].user}</h2>
             <h2>Progress: {Math.floor(value[0].progress)}</h2>
         {/if}
