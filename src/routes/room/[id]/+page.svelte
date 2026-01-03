@@ -213,6 +213,7 @@
 
 
 {#if device == 'mobile'}
+    {data.name}-{data.id}-{device}
     <p>pick color</p>
     <div class="color-container">
         {#each color as c,i}
@@ -232,6 +233,7 @@
     {:else if  gameStart && realStart}
     <p>START!</p>
     {/if}
+
     <main>
         <section class="race-container">
             <svg bind:clientHeight={svgH} bind:clientWidth={svgW}>
