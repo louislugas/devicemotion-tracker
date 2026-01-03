@@ -106,7 +106,7 @@
                 if (path) {
                     await raceChannel.track({
                         user: data.player,
-                        color: color[Math.floor(Math.random()*4)],
+                        color: "#00BBE4",
                         device: device == "desktop" ? "desktop" : "mobile",
                         progress: 0,
                         x: path.getPointAtLength(0).x,
