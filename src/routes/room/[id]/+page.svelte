@@ -141,18 +141,10 @@
 		let u = payload.user
         let n = payload.name
 
-        // console.log(newState, "NEWSTATE")
-        // console.log(newState[u], "USER ID")
-        // console.log(newState[u][0].user, "NAME")
         if(newState[u]) {
             newState[u][0].progress = p
+            console.log(newState)
         }
-
-		// let id = users.findIndex((item) => item[0].user == u)
-		// if (id != -1) {
-		// 	users[id][0].progress = p
-		// }
-        // console.log(payload)
 	})
 
     raceChannel.on('broadcast', {event: 'color'}, ({payload}) => {
@@ -222,6 +214,11 @@
     </div>
     <button disabled={gameStart} onclick={startGame}>START</button>
 {:else if device == 'desktop'}
+<!-- {#if path}
+{path.getTotalLength()}
+{path.getPointAtLength(0).x}
+{path.getPointAtLength(0).y}
+{/if} -->
     {#if gameStart && !realStart}
     <p>{countDown}</p>
     {:else if  gameStart && realStart}
@@ -252,8 +249,8 @@
                             {#if path}
                                 {#if path.getTotalLength()}
                                 <circle 
-                                    cx={path.getPointAtLength(parseInt(Math.floor(value[0].p))).x} 
-                                    cy={path.getPointAtLength(parseInt(Math.floor(value[0].p))).y} 
+                                    cx={path.getPointAtLength(parseInt(Math.floor(value[0].progress))).x} 
+                                    cy={path.getPointAtLength(parseInt(Math.floor(value[0].progress))).y} 
                                     fill={value[0].color} r="10"/>
                                 {/if}
                             {/if}
