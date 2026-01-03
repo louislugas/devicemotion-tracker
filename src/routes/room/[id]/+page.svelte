@@ -204,9 +204,9 @@
 {/if}
 
 {#if gameStart}
-<h1>GAME STARTED</h1>
+<h2>GAME STARTED</h2>
 {:else if !gameStart}
-<h1>GAME NOT STARTED</h1>
+<h2>GAME NOT STARTED</h2>
 {/if}
 
 
