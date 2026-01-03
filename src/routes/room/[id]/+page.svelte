@@ -12,7 +12,7 @@
 
     let device = $state(null)
 
-    let color = [
+    let color = $state([
         {
             // blue
             c:"#00BBE4",
@@ -34,7 +34,7 @@
             a:false,
         }
         
-    ]
+    ])
 
     let mY = 0
 	let progress = 0
@@ -61,16 +61,6 @@
             console.log('sync', newState)
             console.log(Object.entries(newState))
             console.log(Object.entries(newState).length)
-            // users = []
-            // for (const [key, value] of Object.entries(newState)) {
-            //     if (value[0].device === 'mobile') {
-            //         users.push({
-            //             color : value[0].color,
-            //             name: value[0].user
-            //         })
-            //     }
-            // }
-            // console.log(users, "USERS")
         })
         .on('presence', { event: 'join' }, ({ key, newPresences }) => {
             // LISTEN TO JOINED PLAYER
@@ -85,7 +75,7 @@
             if (status === 'SUBSCRIBED') {
                 await raceChannel.track({
                     user: data.player,
-                    color: '#ff0000', // assign random color
+                    color: color[Math.floor(Math.random()*4)],
                     device: device == "desktop" ? "desktop" : "mobile",
                     progress: 0
                 })
@@ -134,6 +124,33 @@
 		// }
         // console.log(payload)
 	})
+
+    raceChannel.on('broadcast', {event: 'color'}, ({payload}) => {
+        let c = payload.color
+        let u = payload.user
+
+        if(newState[u]) {
+            newState[u][0].color = c
+        }
+    })
+
+    function selectColor(e) {
+        let i = e.target.dataset.index
+        color.forEach(c => {
+            c.a = false
+        })
+        color[i].a = true
+
+        raceChannel.send({
+            type: 'broadcast',
+            event: 'color',
+            payload: {  
+                user: user.toString(),
+                name: data.player,
+                color: color[i].c
+                },
+        })
+    }
 </script>
 
 <svelte:window on:devicemotion={deviceMotion}></svelte:window>
@@ -148,6 +165,7 @@
 {:else if Object.entries(newState).length > 0}
     {#each Object.entries(newState).slice(0,2) as [key, value]}
         {#if value[0].device == 'mobile'}
+            <div class="square-player" style:background-color={value[0].user}></div>
             <h2>{value[0].user}</h2>
             <h2>Progress: {Math.floor(value[0].progress)}</h2>
         {/if}
@@ -156,13 +174,20 @@
 
 {#if device == 'mobile'}
     <p>pick color</p>
-    {#each color as c}
-        <div class="square" 
-            style:background-color={c.c}
-        ></div>
-    {/each}
+    <div class="color-container">
+        {#each color as c,i}
+            <div class="square" 
+                data-selected={c.a}
+                data-index={i}
+                class:selected={c.a}
+                style:background-color={c.c}
+                onclick={selectColor}
+            ></div>
+        {/each}
+    </div>
+    <button>START</button>
 {:else if device == 'desktop'}
-    <p>desktop</p>
+    <p>DESKTOP</p>
 {/if}
 
 
@@ -186,8 +211,26 @@
         font-family: 'Geo', sans-serif;
         color:black;
     }
+    p {
+        font-family: 'Geo', sans-serif;
+        color:black;
+    }
+    .color-container {
+        display: flex;
+        width:320px;
+        justify-content: space-around;
+    }
     .square {
         width:60px;
         height:60px;
+        box-sizing: border-box;
+        border-radius: 0.5rem;
+    }
+    .selected {
+        border: solid 2px black;
+    }
+    .square-player {
+        width:1rem;
+        height:1rem;
     }
 </style>
