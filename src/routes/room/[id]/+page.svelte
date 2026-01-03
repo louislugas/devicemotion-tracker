@@ -37,6 +37,8 @@
     ])
 
     let gameStart = $state(false)
+    let realStart = $state(false)
+    let countDown = $state(false)
 
     let mY = 0
 	let progress = 0
@@ -82,6 +84,14 @@
             (payload) => {
                 console.log('Change received!', payload);
                 gameStart = payload.new.start
+                let countInterval = setInterval(() => {
+                    if (countDown >= 1) {
+                        countDown--
+                    } else {
+                        clearInterval(countInterval)
+                        realStart = true
+                    }
+                }, 1000)
             }
         )
         .subscribe(async (status) => {
@@ -149,21 +159,23 @@
     })
 
     function selectColor(e) {
-        let i = e.target.dataset.index
-        color.forEach(c => {
-            c.a = false
-        })
-        color[i].a = true
-
-        raceChannel.send({
-            type: 'broadcast',
-            event: 'color',
-            payload: {  
-                user: user.toString(),
-                name: data.player,
-                color: color[i].c
-                },
-        })
+        if (!gameStart) {
+            let i = e.target.dataset.index
+            color.forEach(c => {
+                c.a = false
+            })
+            color[i].a = true
+    
+            raceChannel.send({
+                type: 'broadcast',
+                event: 'color',
+                payload: {  
+                    user: user.toString(),
+                    name: data.player,
+                    color: color[i].c
+                    },
+            })
+        }
     }
 
     let i = data.id
@@ -196,7 +208,7 @@
             <h2>Progress: {Math.floor(value[0].progress)}</h2>
         {/if}
     {/each}
-    {device}
+    <!-- {device} -->
 {/if}
 
 {#if device == 'mobile'}
@@ -216,6 +228,15 @@
 {:else if device == 'desktop'}
     <p>DESKTOP</p>
     <button disabled={gameStart} onclick={startGame}>START</button>
+    <br>
+    {#if gameStart && !realStart}
+    <p>{countDown}</p>
+    {:else if  gameStart && realStart}
+    <p>START!</p>
+    {/if}
+    <svg width="100vw">
+
+    </svg>
 {/if}
 
 {#if gameStart}
@@ -253,6 +274,7 @@
         display: flex;
         width:320px;
         justify-content: space-around;
+        margin:0 auto;
     }
     .square {
         width:60px;
