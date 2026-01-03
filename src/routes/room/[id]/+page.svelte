@@ -78,6 +78,12 @@
             // LISTEN TO LEFT PLAYER
             console.log('leave', key, leftPresences)
         })
+        .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'rooms' }, // Listen to all events in the 'todos' table
+            (payload) => {
+                console.log('Change received!', payload);
+                gameStart = payload.new.start
+            }
+        )
         .subscribe(async (status) => {
             if (status !== 'SUBSCRIBED') { return }
             if (status === 'SUBSCRIBED') {
@@ -160,8 +166,16 @@
         })
     }
 
-    function startGame() {
-        gameStart = true
+    let i = data.id
+
+    async function startGame() {
+
+        const { data, error } = await supabase
+            .from('rooms')
+            .update({ start : true })
+            .eq('id', i)
+
+            console.log(data)
     }
 </script>
 
@@ -198,15 +212,16 @@
             ></div>
         {/each}
     </div>
-    <button onclick={startGame}>START</button>
+    <button disabled={gameStart} onclick={startGame}>START</button>
 {:else if device == 'desktop'}
     <p>DESKTOP</p>
+    <button disabled={gameStart} onclick={startGame}>START</button>
 {/if}
 
 {#if gameStart}
-<h2>GAME STARTED</h2>
+    <h2>GAME STARTED</h2>
 {:else if !gameStart}
-<h2>GAME NOT STARTED</h2>
+    <h2>GAME NOT STARTED</h2>
 {/if}
 
 
