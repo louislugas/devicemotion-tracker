@@ -44,7 +44,13 @@
 
 	if (!Device.isMobile && !Device.isPhone && !Device.isTablet) {
 		device = 'desktop'
-	}
+	} else if (Device.isMobile) {
+        device = 'mobile'
+    } else if (Device.isPhone) {
+        device = 'mobile'
+    } else if (Device.isTablet) {
+        device = 'tablet'
+    }
 
     const raceChannel = supabase.channel(`race-channel:${data.id}`, {
         config: {
