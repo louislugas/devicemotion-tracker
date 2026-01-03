@@ -38,7 +38,7 @@
 
     let gameStart = $state(false)
     let realStart = $state(false)
-    let countDown = $state(false)
+    let countDown = $state(3)
 
     let mY = 0
 	let progress = 0
