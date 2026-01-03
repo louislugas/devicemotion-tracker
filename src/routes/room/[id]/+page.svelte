@@ -170,6 +170,7 @@
             <h2>Progress: {Math.floor(value[0].progress)}</h2>
         {/if}
     {/each}
+    {device}
 {/if}
 
 {#if device == 'mobile'}
