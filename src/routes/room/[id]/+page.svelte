@@ -250,9 +250,9 @@
                     {#each Object.entries(newState).slice(0,2) as [key, value]}
                         {#if value[0].device == 'mobile'}
                             <circle 
-                            cx={path.getPointAtLength(value[0].p).x} 
-                            cy={path.getPointAtLength(value[0].p).y} 
-                            fill={value[0].color} r="10"/>
+                                cx={path.getPointAtLength(parseInt(Math.floor(value[0].p))).x} 
+                                cy={path.getPointAtLength(parseInt(Math.floor(value[0].p))).y} 
+                                fill={value[0].color} r="10"/>
                         {/if}
                     {/each}
                     <!-- {device} -->
