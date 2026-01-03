@@ -43,8 +43,14 @@
     let mY = 0
 	let progress = 0
 
+    let svgW = $state(0), svgH = $state(0)
+
 	let users = $state([])
     let newState = $state({})
+
+    let xPos = $state(0)
+    let yPos = $state(0)
+    let path = $state(null)
 
 	if (!Device.isMobile && !Device.isPhone && !Device.isTablet) {
 		device = 'desktop'
@@ -101,7 +107,9 @@
                     user: data.player,
                     color: color[Math.floor(Math.random()*4)],
                     device: device == "desktop" ? "desktop" : "mobile",
-                    progress: 0
+                    progress: 0,
+                    x: path.getPointAtLength(0).x,
+                    y: path.getPointAtLength(0).y
                 })
             }
         })
@@ -140,6 +148,8 @@
         // console.log(newState[u][0].user, "NAME")
         if(newState[u]) {
             newState[u][0].progress = p
+            newState[u][0].x = path.getPointAtLength(p).x
+            newState[u][0].y = path.getPointAtLength(p).y
         }
 
 		// let id = users.findIndex((item) => item[0].user == u)
@@ -198,18 +208,7 @@
     <h1>{data.name} - {data.id}</h1>
 </nav>
 
-{#if Object.entries(newState).length == 0}
-	<h2>No other users connected</h2>
-{:else if Object.entries(newState).length > 0}
-    {#each Object.entries(newState).slice(0,2) as [key, value]}
-        {#if value[0].device == 'mobile'}
-            <div class="square-player" style:background-color={value[0].color}></div>
-            <h2>{value[0].user}</h2>
-            <h2>Progress: {Math.floor(value[0].progress)}</h2>
-        {/if}
-    {/each}
-    <!-- {device} -->
-{/if}
+
 
 {#if device == 'mobile'}
     <p>pick color</p>
@@ -226,23 +225,56 @@
     </div>
     <button disabled={gameStart} onclick={startGame}>START</button>
 {:else if device == 'desktop'}
-    <p>DESKTOP</p>
-    <button disabled={gameStart} onclick={startGame}>START</button>
-    <br>
     {#if gameStart && !realStart}
     <p>{countDown}</p>
     {:else if  gameStart && realStart}
     <p>START!</p>
     {/if}
-    <svg width="100vw">
+    <main>
+        <section class="race-container">
+            <svg bind:clientHeight={svgH} bind:clientWidth={svgW}>
+                <path
+                    bind:this={path}
+                    stroke="#FF825C"
+                    stroke-width="10"
+                    fill="transparent"
+                    d="
+                        M{0.3*svgW},{(svgH-(0.4*svgW))/2} 
+                        l{0.4*svgW},0
+                        q{0.2*svgW},0 {0.2*svgW},{0.2*svgW}
+                        q0,{0.2*svgW} -{0.2*svgW},{0.2*svgW} 
+                        l-{0.4*svgW},0
+                        q-{0.2*svgW},0 -{0.2*svgW},-{0.2*svgW}
+                        q0,-{0.2*svgW} {0.2*svgW},-{0.2*svgW}
+                        "
+                />
+                {#if Object.entries(newState).length > 0}
+                    {#each Object.entries(newState).slice(0,2) as [key, value]}
+                        {#if value[0].device == 'mobile'}
+                            <circle cx={value[0].x} cy={value[0].y} fill={value[0].color} r="10"/>
+                        {/if}
+                    {/each}
+                    <!-- {device} -->
+                {/if}
+            </svg>
+        </section>
+        <section class="users">
+            {#if Object.entries(newState).length == 0}
+                <h2>No other users connected</h2>
+            {:else if Object.entries(newState).length > 0}
+                {#each Object.entries(newState).slice(0,2) as [key, value]}
+                    {#if value[0].device == 'mobile'}
+                        <div class="square-player" style:background-color={value[0].color}></div>
+                        <h2>{value[0].user}</h2>
+                        <h2>Progress: {Math.floor(value[0].progress)}</h2>
+                    {/if}
+                {/each}
+                <!-- {device} -->
+            {/if}
+        </section>
+        
 
-    </svg>
-{/if}
-
-{#if gameStart}
-    <h2>GAME STARTED</h2>
-{:else if !gameStart}
-    <h2>GAME NOT STARTED</h2>
+    </main>
 {/if}
 
 
@@ -251,6 +283,25 @@
         margin:0;
         width:100%;
         display: block;
+    }
+    svg {
+        /* border: solid 1px black; */
+        position:absolute;
+        /* background-color: coral; */
+        width:100%;
+        height:100%;
+    }
+    .race-container {
+        /* background-color: cornflowerblue; */
+        width:100vw;
+        height:90vh;
+        position: absolute;
+    }
+    .users {
+        position:absolute;
+        left:1%;
+        margin:0 auto;
+        width:98%;
     }
     nav {
         width:100%;
