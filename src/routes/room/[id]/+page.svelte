@@ -103,16 +103,12 @@
         .subscribe(async (status) => {
             if (status !== 'SUBSCRIBED') { return }
             if (status === 'SUBSCRIBED') {
-                if (path) {
-                    await raceChannel.track({
-                        user: data.player,
-                        color: "#00BBE4",
-                        device: device == "desktop" ? "desktop" : "mobile",
-                        progress: 0,
-                        x: path.getPointAtLength(0).x,
-                        y: path.getPointAtLength(0).y
-                    })
-                }
+                await raceChannel.track({
+                    user: data.player,
+                    color: "#00BBE4",
+                    device: device == "desktop" ? "desktop" : "mobile",
+                    progress: 0,
+                })
             }
         })
 
@@ -150,8 +146,6 @@
         // console.log(newState[u][0].user, "NAME")
         if(newState[u]) {
             newState[u][0].progress = p
-            newState[u][0].x = path.getPointAtLength(p).x
-            newState[u][0].y = path.getPointAtLength(p).y
         }
 
 		// let id = users.findIndex((item) => item[0].user == u)
@@ -255,7 +249,10 @@
                 {#if Object.entries(newState).length > 0}
                     {#each Object.entries(newState).slice(0,2) as [key, value]}
                         {#if value[0].device == 'mobile'}
-                            <circle cx={value[0].x} cy={value[0].y} fill={value[0].color} r="10"/>
+                            <circle 
+                            cx={path.getPointAtLength(value[0].p).x} 
+                            cy={path.getPointAtLength(value[0].p).y} 
+                            fill={value[0].color} r="10"/>
                         {/if}
                     {/each}
                     <!-- {device} -->
