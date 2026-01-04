@@ -243,21 +243,7 @@
     }
 
     $effect(() => {
-        let l = path.getTotalLength()
-
-        if (Object.entries(newState).length > 0) {
-            Object.entries(newState).forEach( user => {
-                console.log(user)
-                if (user[0].progress >= l) {
-                    win = true
-                    winner = user[0].user
-                    console.log(win, winner)
-                }
-            })
-
-            console.log(win, winner)
-
-        }
+        console.log(newState, path.getTotalLength())
     })
 </script>
 
@@ -321,7 +307,9 @@
                                     fill={value[0].color} r="10"/>
                                 <text 
                                     x={path.getPointAtLength(parseInt(Math.floor(value[0].progress))).x} 
-                                    y={path.getPointAtLength(parseInt(Math.floor(value[0].progress))).y - 20}
+                                    y={i % 2 == 0 ? 
+                                        path.getPointAtLength(parseInt(Math.floor(value[0].progress))).y - 20 : 
+                                        path.getPointAtLength(parseInt(Math.floor(value[0].progress))).y + 20}
                                     fill="black"
                                     font-size='1.5rem'
                                     text-anchor={ i % 2 == 0 ? "start" : "end"}
@@ -342,6 +330,7 @@
                     >{countDown}</text>
                 {:else if  gameStart && realStart}
                 <text 
+                    class="start-text"
                     text-anchor="middle" 
                     dominant-baseline="middle"
                     font-size="5rem"
