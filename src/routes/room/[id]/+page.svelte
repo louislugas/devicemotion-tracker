@@ -101,6 +101,8 @@
     let xPos = $state(0)
     let yPos = $state(0)
     let path = $state(null)
+    let win = $state(false)
+    let winner = $state(null)
 
 	if (!Device.isMobile && !Device.isPhone && !Device.isTablet) {
 		device = 'desktop'
@@ -172,7 +174,7 @@
             if (now - lastSent > throttle_ms) {
                 y = Math.floor(event.acceleration.y)
         
-                progress += (Math.abs(y)/100)*50
+                progress += (Math.abs(y)/100) * 25
                 
                 raceChannel.send({
                     type: 'broadcast',
@@ -239,6 +241,22 @@
 
             console.log(data)
     }
+
+    $effect(() => {
+        let l = path.getTotalLength()
+
+        if (Object.entries(newState).length > 0) {
+            Object.entries(newState).forEach( user => {
+                if (user[0].progress >= l) {
+                    win = true
+                    winner = user[0].user
+                }
+            })
+
+            console.log(win, winner)
+
+        }
+    })
 </script>
 
 <svelte:window on:devicemotion={deviceMotion}></svelte:window>
@@ -412,7 +430,7 @@
         margin:1rem auto;
         font-family: 'Geo', sans-serif;
         color:black;
-        font-family: 2rem;
+        font-size: 2rem;
     }
     .square {
         width:60px;
