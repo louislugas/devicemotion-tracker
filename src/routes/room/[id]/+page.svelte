@@ -167,22 +167,24 @@
     let y
 
     function deviceMotion(e) {
-        const now = Date.now()
-        if (now - lastSent > throttle_ms) {
-            y = Math.floor(event.acceleration.y)
-    
-            progress += (Math.abs(y)/100)*50
-            
-            raceChannel.send({
-                type: 'broadcast',
-                event: 'progress',
-                payload: { 
-                    progress: progress, 
-                    user: user.toString(),
-                    name: data.player
-                 },
-            })
-            lastSent = now
+        if (realStart) {
+            const now = Date.now()
+            if (now - lastSent > throttle_ms) {
+                y = Math.floor(event.acceleration.y)
+        
+                progress += (Math.abs(y)/100)*50
+                
+                raceChannel.send({
+                    type: 'broadcast',
+                    event: 'progress',
+                    payload: { 
+                        progress: progress, 
+                        user: user.toString(),
+                        name: data.player
+                     },
+                })
+                lastSent = now
+            }
         }
 	}
 
@@ -190,11 +192,10 @@
 		let p = payload.progress
 		let u = payload.user
         let n = payload.name
-        if (realStart) {
-            if(newState[u]) {
-                newState[u][0].progress = p
-                console.log(newState)
-            }
+
+        if(newState[u]) {
+            newState[u][0].progress = p
+            console.log(newState)
         }
 	})
 
@@ -396,10 +397,11 @@
         margin:0 auto;
     }
     .start {
-        width:90%;
+        width:100%;
         margin:1rem auto;
         font-family: 'Geo', sans-serif;
         color:black;
+        font-family: 2rem;
     }
     .square {
         width:60px;
