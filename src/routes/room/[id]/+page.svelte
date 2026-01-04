@@ -293,18 +293,21 @@
                         "
                 />
                 {#if Object.entries(newState).length > 0}
-                    {#each Object.entries(newState).slice(0,2) as [key, value]}
+                    {#each Object.entries(newState).slice(0,2) as [key, value],i}
                         {#if value[0].device == 'mobile'}
                             {#if path}
                                 {#if path.getTotalLength()}
                                 <circle 
                                     cx={path.getPointAtLength(parseInt(Math.floor(value[0].progress))).x} 
-                                    cy={path.getPointAtLength(parseInt(Math.floor(value[0].progress))).y} 
+                                    cy={path.getPointAtLength(parseInt(Math.floor(value[0].progress))).y}
+                                    stroke="black"
+                                    stroke-width="4"
                                     fill={value[0].color} r="10"/>
                                 <text 
                                     x={path.getPointAtLength(parseInt(Math.floor(value[0].progress))).x} 
                                     y={path.getPointAtLength(parseInt(Math.floor(value[0].progress))).y - 20}
-                                    fill={value[0].color}
+                                    fill="black"
+                                    text-anchor={ i % 2 == 0 ? "start" : "end"}
                                 >{value[0].user}</text>
                                 {/if}
                             {/if}
@@ -320,9 +323,10 @@
             {:else if Object.entries(newState).length > 0}
                 {#each Object.entries(newState).slice(0,2) as [key, value]}
                     {#if value[0].device == 'mobile'}
-                        <div class="square-player" style:background-color={value[0].color}></div>
-                        <h2>{value[0].user}</h2>
-                        <h2>Progress: {Math.floor(value[0].progress)}</h2>
+                        <div class="user-container">
+                            <div class="square-player" style:background-color={value[0].color}></div>
+                            <h2>{value[0].user}-{Math.floor(value[0].progress)}</h2>
+                        </div>
                     {/if}
                 {/each}
                 <!-- {device} -->
@@ -377,6 +381,10 @@
         font-family: 'Geo', sans-serif;
         color:black;
     }
+    text {
+        font-family: 'Geo', sans-serif;
+        color:black;
+    }
     .color-container {
         display: flex;
         width:320px;
@@ -400,5 +408,8 @@
     .square-player {
         width:1rem;
         height:1rem;
+    }
+    .user-container {
+        display: flex;
     }
 </style>
