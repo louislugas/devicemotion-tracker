@@ -190,10 +190,11 @@
 		let p = payload.progress
 		let u = payload.user
         let n = payload.name
-
-        if(newState[u]) {
-            newState[u][0].progress = p
-            console.log(newState)
+        if (realStart) {
+            if(newState[u]) {
+                newState[u][0].progress = p
+                console.log(newState)
+            }
         }
 	})
 
@@ -261,7 +262,7 @@
             ></div>
         {/each}
     </div>
-    <button style="start" disabled={gameStart} onclick={startGame}>START</button>
+    <button class="start" disabled={gameStart} onclick={startGame}>START</button>
 {:else if device == 'desktop'}
 <!-- {#if path}
 {path.getTotalLength()}
@@ -301,12 +302,13 @@
                                     cx={path.getPointAtLength(parseInt(Math.floor(value[0].progress))).x} 
                                     cy={path.getPointAtLength(parseInt(Math.floor(value[0].progress))).y}
                                     stroke="black"
-                                    stroke-width="4"
+                                    stroke-width="2"
                                     fill={value[0].color} r="10"/>
                                 <text 
                                     x={path.getPointAtLength(parseInt(Math.floor(value[0].progress))).x} 
                                     y={path.getPointAtLength(parseInt(Math.floor(value[0].progress))).y - 20}
                                     fill="black"
+                                    font-size='1.5rem'
                                     text-anchor={ i % 2 == 0 ? "start" : "end"}
                                 >{value[0].user}</text>
                                 {/if}
@@ -376,6 +378,8 @@
     h2 {
         font-family: 'Geo', sans-serif;
         color:black;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
     }
     p {
         font-family: 'Geo', sans-serif;
@@ -392,7 +396,8 @@
         margin:0 auto;
     }
     .start {
-        width:320px;
+        width:90%;
+        margin:1rem auto;
         font-family: 'Geo', sans-serif;
         color:black;
     }
@@ -406,8 +411,9 @@
         border: solid 2px black;
     }
     .square-player {
-        width:1rem;
-        height:1rem;
+        width:1.5rem;
+        height:1.5rem;
+        margin:0.5rem;
     }
     .user-container {
         display: flex;
