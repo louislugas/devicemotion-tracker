@@ -251,9 +251,9 @@
             let l = path.getTotalLength()
             if (Object.entries(newState).length > 0) {
                 Object.entries(newState).forEach( d => {
-                    console.log(d)
-                    console.log(d[1][0].progress)
-                    console.log(d[1][0].user)
+                    // console.log(d)
+                    // console.log(d[1][0].progress)
+                    // console.log(d[1][0].user)
                     if (d[1][0].progress > l) {
                         win = true
                         winner = d[1][0].user
