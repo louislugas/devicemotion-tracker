@@ -270,12 +270,6 @@
 {path.getPointAtLength(0).x}
 {path.getPointAtLength(0).y}
 {/if} -->
-    {#if gameStart && !realStart}
-    <p>{countDown}</p>
-    {:else if  gameStart && realStart}
-    <p>START!</p>
-    {/if}
-
     <main>
         <section class="race-container">
             <svg bind:clientHeight={svgH} bind:clientWidth={svgW}>
@@ -317,6 +311,23 @@
                         {/if}
                     {/each}
                     <!-- {device} -->
+                {/if}
+                {#if gameStart && !realStart}
+                <text 
+                    text-anchor="middle" 
+                    dominant-baseline="middle"
+                    font-size="5rem"
+                    x={0.5*svgW}
+                    y={0.5*svgH}
+                    >{countDown}</text>
+                {:else if  gameStart && realStart}
+                <text 
+                    text-anchor="middle" 
+                    dominant-baseline="middle"
+                    font-size="5rem"
+                    x={0.5*svgW}
+                    y={0.5*svgH}
+                    >START!</text>
                 {/if}
             </svg>
         </section>
