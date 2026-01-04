@@ -126,13 +126,13 @@
         .on('presence', { event: 'sync' }, () => {
             // LISTEN TO SYNC
             newState = raceChannel.presenceState()
-            console.log('sync', newState)
-            console.log(Object.entries(newState))
-            console.log(Object.entries(newState).length)
+            // console.log('sync', newState)
+            // console.log(Object.entries(newState))
+            // console.log(Object.entries(newState).length)
         })
         .on('presence', { event: 'join' }, ({ key, newPresences }) => {
             // LISTEN TO JOINED PLAYER
-            console.log('join', key, newPresences)
+            // console.log('join', key, newPresences)
         })
         .on('presence', { event: 'leave' }, ({ key, leftPresences }) => {
             // LISTEN TO LEFT PLAYER
@@ -140,7 +140,7 @@
         })
         .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'rooms' }, // Listen to all events in the 'todos' table
             (payload) => {
-                console.log('Change received!', payload);
+                // console.log('Change received!', payload);
                 gameStart = payload.new.start
                 let countInterval = setInterval(() => {
                     if (countDown > 1) {
@@ -197,7 +197,7 @@
 
         if(newState[u]) {
             newState[u][0].progress = p
-            console.log(newState)
+            // console.log(newState)
         }
 	})
 
@@ -243,6 +243,8 @@
     }
 
     $effect(() => {
+        console.log("effect active")
+        
         let l = path.getTotalLength()
 
         if (Object.entries(newState).length > 0) {
