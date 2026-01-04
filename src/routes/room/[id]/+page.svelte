@@ -247,6 +247,7 @@
 
         if (Object.entries(newState).length > 0) {
             Object.entries(newState).forEach( user => {
+                console.log(user)
                 if (user[0].progress >= l) {
                     win = true
                     winner = user[0].user
