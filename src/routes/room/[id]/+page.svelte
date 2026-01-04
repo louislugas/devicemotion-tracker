@@ -4,6 +4,7 @@
 
 <script>
     import {supabase} from '$lib/supabase';
+    import { onMount } from 'svelte';
 
     /** @type {import('./$types').PageProps} */
     let { data } = $props();
@@ -35,6 +36,55 @@
         }
         
     ])
+
+    let isSupported = $state(false);
+
+    onMount(() => {
+        if ('wakeLock' in navigator) {
+        isSupported = true;
+        console.log('Screen Wake Lock API supported!');
+        acquireLock()
+        } else {
+        console.log('Wake lock is not supported by this browser.');
+        }
+    });
+
+    let wakeLock = $state(null)
+    let isWakeLocked = $state(false)
+    let statusMessage = 'Screen is allowed to sleep.'
+
+    // Function to acquire the wake lock
+    async function acquireLock() {
+        if (!isSupported) return;
+
+        try {
+            // The request() method is Promise-based and needs to be awaited
+            wakeLock = await navigator.wakeLock.request('screen');
+            isWakeLocked = true;
+            statusMessage = 'Wake Lock is active!';
+
+            // Listen for the 'release' event, which can happen automatically (e.g., browser minimized)
+            wakeLock.addEventListener('release', () => {
+                console.log('Wake Lock was released');
+                isWakeLocked = false;
+                statusMessage = 'Wake Lock was released by the system.';
+            });
+
+        } catch (err) {
+            // The request failed (e.g., due to low battery, or user denied)
+            statusMessage = `${err.name}: ${err.message}`;
+        }
+    }
+
+    // Function to release the wake lock manually
+    async function releaseLock() {
+        if (wakeLock) {
+            await wakeLock.release(); // This is a Promise
+            wakeLock = null;
+            isWakeLocked = false;
+            statusMessage = 'Wake Lock manually released.';
+        }
+    }
 
     let gameStart = $state(false)
     let realStart = $state(false)
@@ -231,7 +281,7 @@
                 <path
                     bind:this={path}
                     stroke="#FF825C"
-                    stroke-width="10"
+                    stroke-width="50"
                     fill="transparent"
                     d="
                         M{0.3*svgW},{(svgH-(0.4*svgW))/2} 
