@@ -192,14 +192,16 @@
 	}
 
 	raceChannel.on('broadcast', { event: 'progress' }, ({ payload }) => {
-        change++
-		let p = payload.progress
-		let u = payload.user
-        let n = payload.name
-
-        if(newState[u]) {
-            newState[u][0].progress = p
-            // console.log(newState)
+        if(realStart) {
+            change++
+            let p = payload.progress
+            let u = payload.user
+            let n = payload.name
+    
+            if(newState[u]) {
+                newState[u][0].progress = p
+                // console.log(newState)
+            }
         }
 	})
 
@@ -248,9 +250,10 @@
         if (change) {
             let l = path.getTotalLength()
             if (Object.entries(newState).length > 0) {
-                console.log(Object.entries(newState))
                 Object.entries(newState).forEach( d => {
                     console.log(d)
+                    console.log(d.progres)
+                    console.log(d.user)
                     if (d.progress > l) {
                         win = true
                         winner = d.user
