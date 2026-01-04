@@ -92,6 +92,7 @@
 
     let mY = 0
 	let progress = 0
+    let change = $state(0)
 
     let svgW = $state(0), svgH = $state(0)
 
@@ -136,7 +137,7 @@
         })
         .on('presence', { event: 'leave' }, ({ key, leftPresences }) => {
             // LISTEN TO LEFT PLAYER
-            console.log('leave', key, leftPresences)
+            // console.log('leave', key, leftPresences)
         })
         .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'rooms' }, // Listen to all events in the 'todos' table
             (payload) => {
@@ -191,6 +192,7 @@
 	}
 
 	raceChannel.on('broadcast', { event: 'progress' }, ({ payload }) => {
+        change++
 		let p = payload.progress
 		let u = payload.user
         let n = payload.name
@@ -243,7 +245,9 @@
     }
 
     $effect(() => {
-        console.log(newState, path.getTotalLength())
+        if (change) {
+            console.log(path.getTotalLength())
+        }
     })
 </script>
 
@@ -257,19 +261,21 @@
 
 
 {#if device == 'mobile'}
-    <p style:text-align="center">pick color</p>
-    <div class="color-container">
-        {#each color as c,i}
-            <div class="square" 
-                data-selected={c.a}
-                data-index={i}
-                class:selected={c.a}
-                style:background-color={c.c}
-                onclick={selectColor}
-            ></div>
-        {/each}
-    </div>
-    <button class="start" disabled={gameStart} onclick={startGame}>START</button>
+    {#if !gameStart}
+        <p style:text-align="center">pick color</p>
+        <div class="color-container">
+            {#each color as c,i}
+                <div class="square" 
+                    data-selected={c.a}
+                    data-index={i}
+                    class:selected={c.a}
+                    style:background-color={c.c}
+                    onclick={selectColor}
+                ></div>
+            {/each}
+        </div>
+        <button class="start" disabled={gameStart} onclick={startGame}>START</button>
+    {/if}
 {:else if device == 'desktop'}
 <!-- {#if path}
 {path.getTotalLength()}
