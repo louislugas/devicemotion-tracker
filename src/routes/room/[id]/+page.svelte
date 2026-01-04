@@ -243,8 +243,6 @@
     }
 
     $effect(() => {
-        console.log("effect active")
-        
         let l = path.getTotalLength()
 
         if (Object.entries(newState).length > 0) {
@@ -252,6 +250,7 @@
                 if (user[0].progress >= l) {
                     win = true
                     winner = user[0].user
+                    console.log(win, winner)
                 }
             })
 
