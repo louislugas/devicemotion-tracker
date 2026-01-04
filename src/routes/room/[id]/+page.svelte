@@ -112,7 +112,7 @@
     } else if (Device.isPhone) {
         device = 'mobile'
     } else if (Device.isTablet) {
-        device = 'tablet'
+        device = 'desktop'
     }
 
     const raceChannel = supabase.channel(`race-channel:${data.id}`, {
