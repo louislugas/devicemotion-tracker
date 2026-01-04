@@ -249,8 +249,7 @@
 
 
 {#if device == 'mobile'}
-    {data.name}-{data.id}-{device}
-    <p>pick color</p>
+    <p style:text-align="center">pick color</p>
     <div class="color-container">
         {#each color as c,i}
             <div class="square" 
@@ -262,7 +261,7 @@
             ></div>
         {/each}
     </div>
-    <button disabled={gameStart} onclick={startGame}>START</button>
+    <button style="start" disabled={gameStart} onclick={startGame}>START</button>
 {:else if device == 'desktop'}
 <!-- {#if path}
 {path.getTotalLength()}
@@ -306,7 +305,7 @@
                                     x={path.getPointAtLength(parseInt(Math.floor(value[0].progress))).x} 
                                     y={path.getPointAtLength(parseInt(Math.floor(value[0].progress))).y - 20}
                                     fill={value[0].color}
-                                >{value[0].name}</text>
+                                >{value[0].user}</text>
                                 {/if}
                             {/if}
                         {/if}
@@ -383,6 +382,11 @@
         width:320px;
         justify-content: space-around;
         margin:0 auto;
+    }
+    .start {
+        width:320px;
+        font-family: 'Geo', sans-serif;
+        color:black;
     }
     .square {
         width:60px;
