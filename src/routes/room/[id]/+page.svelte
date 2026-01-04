@@ -378,7 +378,7 @@
                     {#if value[0].device == 'mobile'}
                         <div class="user-container">
                             <div class="square-player" style:background-color={value[0].color}></div>
-                            <h2>{value[0].user}-{Math.floor(value[0].progress)}</h2>
+                            <h2>{value[0].user}</h2>
                         </div>
                     {/if}
                 {/each}
