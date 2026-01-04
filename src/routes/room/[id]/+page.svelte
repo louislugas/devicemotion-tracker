@@ -252,6 +252,11 @@
                                     cx={path.getPointAtLength(parseInt(Math.floor(value[0].progress))).x} 
                                     cy={path.getPointAtLength(parseInt(Math.floor(value[0].progress))).y} 
                                     fill={value[0].color} r="10"/>
+                                <text 
+                                    x={path.getPointAtLength(parseInt(Math.floor(value[0].progress))).x} 
+                                    y={path.getPointAtLength(parseInt(Math.floor(value[0].progress))).y - 20}
+                                    fill={value[0].color}
+                                >{value[0].name}</text>
                                 {/if}
                             {/if}
                         {/if}
