@@ -246,7 +246,17 @@
 
     $effect(() => {
         if (change) {
-            console.log(path.getTotalLength())
+            let l = path.getTotalLength()
+            if (Object.entries(newState).length > 0) {
+                console.log(Object.entries(newState))
+                Object.entries(newState).forEach( d => {
+                    console.log(d)
+                    if (d.progress > l) {
+                        win = true
+                        winner = d.user
+                    }
+                })
+            }
         }
     })
 </script>
