@@ -254,9 +254,9 @@
                     console.log(d)
                     console.log(d[1][0].progress)
                     console.log(d[1][0].user)
-                    if (d.progress > l) {
+                    if (d[1][0].progress > l) {
                         win = true
-                        winner = d.user
+                        winner = d[1][0].user
                     }
                 })
             }
@@ -339,23 +339,34 @@
                     {/each}
                     <!-- {device} -->
                 {/if}
-                {#if gameStart && !realStart}
-                <text 
-                    text-anchor="middle" 
-                    dominant-baseline="middle"
-                    font-size="5rem"
-                    x={0.5*svgW}
-                    y={0.5*svgH}
-                    >{countDown}</text>
-                {:else if  gameStart && realStart}
-                <text 
-                    class="start-text"
-                    text-anchor="middle" 
-                    dominant-baseline="middle"
-                    font-size="5rem"
-                    x={0.5*svgW}
-                    y={0.5*svgH}
-                    >START!</text>
+                {#if !win}
+                    {#if gameStart && !realStart}
+                    <text 
+                        text-anchor="middle" 
+                        dominant-baseline="middle"
+                        font-size="5rem"
+                        x={0.5*svgW}
+                        y={0.5*svgH}
+                        >{countDown}</text>
+                    {:else if  gameStart && realStart}
+                    <text 
+                        class="start-text"
+                        text-anchor="middle" 
+                        dominant-baseline="middle"
+                        font-size="5rem"
+                        x={0.5*svgW}
+                        y={0.5*svgH}
+                        >START!</text>
+                    {/if}
+                {:else}
+                    <text 
+                        class="start-text"
+                        text-anchor="middle" 
+                        dominant-baseline="middle"
+                        font-size="5rem"
+                        x={0.5*svgW}
+                        y={0.5*svgH}
+                        >{winner} WIN!</text>
                 {/if}
             </svg>
         </section>
