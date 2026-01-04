@@ -171,7 +171,7 @@
         if (now - lastSent > throttle_ms) {
             y = Math.floor(event.acceleration.y)
     
-            progress += (Math.abs(y)/100)*100
+            progress += (Math.abs(y)/100)*50
             
             raceChannel.send({
                 type: 'broadcast',
